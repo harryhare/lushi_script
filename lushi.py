@@ -51,7 +51,7 @@ class Agent:
         self.states = ['box', 'mercenaries', 'team_lock', 'travel', 'boss_list', 'team_list', 'map_not_ready',
                        'goto', 'show', 'teleport', 'start_game', 'member_not_ready', 'not_ready_dots', 'battle_ready',
                        'treasure_list', 'treasure_replace', 'destroy', 'blue_portal', 'boom', 'visitor_list',
-                       'final_reward', 'final_reward2', 'final_confirm', 'close', 'ok']
+                       'final_reward', 'final_reward2', 'final_reward3', 'done', 'final_confirm', 'close', 'ok']
 
         self.load_config(cfg)
         self.log_util = LogUtil(self.basic.hs_log)
@@ -341,7 +341,7 @@ class Agent:
         self.states = ['box', 'mercenaries', 'team_lock', 'travel', 'boss_list', 'team_list', 'map_not_ready',
                   'goto', 'show', 'teleport', 'start_game', 'member_not_ready', 'not_ready_dots', 'battle_ready',
                   'treasure_list', 'treasure_replace', 'destroy', 'blue_portal', 'boom', 'visitor_list',
-                  'final_reward', 'final_reward2', 'final_confirm', 'ok', 'close']
+                  'final_reward', 'final_reward2','final_reward3', 'done','final_confirm', 'ok', 'close']
         '''
         if success:
             if state != text:
@@ -409,16 +409,20 @@ class Agent:
                     self.side = 'left'
                 if self.side == 'left':
                     if self.surprise_in_mid:
-                        x1, x2, x3 = first_x, (first_x + mid_x) // 2, mid_x
+                        x1, x2, x3, x4, x5 = first_x, first_x * 0.75 + mid_x * 0.25, (
+                                first_x + mid_x) // 2, first_x * 0.25 + mid_x * 0.75, mid_x
                     else:
-                        x1, x2, x3 = mid_x, (first_x + mid_x) // 2, first_x
+                        x1, x2, x3, x4, x5 = mid_x, mid_x * 0.75 + first_x * 0.25, (
+                                    first_x + mid_x) // 2, mid_x * 0.25 + first_x * 0.75, first_x
                 else:
                     if self.surprise_in_mid:
-                        x1, x2, x3 = last_x, (last_x + mid_x) // 2, mid_x
+                        x1, x2, x3, x4, x5 = last_x, last_x * 0.75 + mid_x * 0.25, (
+                                last_x + mid_x) // 2, last_x * 0.25 + mid_x * 0.75, mid_x
                     else:
-                        x1, x2, x3 = mid_x, (last_x + mid_x) // 2, last_x
+                        x1, x2, x3, x4, x5 = mid_x, mid_x * 0.75 + last_x * 0.25, (
+                                    last_x + mid_x) // 2, mid_x * 0.25 + last_x * 0.75, last_x
 
-                for x in (x1, x2, x3):
+                for x in (x1, x2, x3, x4, x5):
                     pyautogui.click(tuple_add(rect, (x, y)))
 
             if state in ['goto', 'show', 'teleport', 'start_game']:
@@ -488,7 +492,7 @@ class Agent:
                     pyautogui.click(tuple_add(rect, self.locs.give_up))
                     pyautogui.click(tuple_add(rect, self.locs.give_up_cfm))
 
-            if state in ['final_reward', 'final_reward2']:
+            if state in ['final_reward', 'final_reward2', "final_reward3"]:
                 logger.info(f'find {state}, try to click')
                 reward_count = self.basic.reward_count_dropdown
                 reward_count = int(reward_count) if reward_count.isdigit() else reward_count
@@ -503,6 +507,10 @@ class Agent:
 
                 pyautogui.moveTo(tuple_add(rect, self.locs.rewards['confirm']))
                 pyautogui.click()
+
+            if state == 'done':
+                logger.info(f'find {state}, try to click')
+                pyautogui.click(tuple_add(rect, loc))
 
             if state == 'final_confirm':
                 logger.info(f'find {state}, try to click')
