@@ -76,7 +76,7 @@ class Agent:
             x[k] = v
 
     def load_config(self, cfg):
-        self.visitors = 3
+        self.visitors = 1
         with open(self.loc_file, 'r', encoding='utf-8') as f:
             loc_cfg = yaml.safe_load(f)
 
@@ -109,6 +109,8 @@ class Agent:
         self.map_decision = self.basic.map_decision
         if self.map_decision is None or self.map_decision == '':
             self.map_decision = 'visitor_first'
+        print(self.map_decision)
+        print(self.basic.map_decision)
         pyautogui.PAUSE = self.basic.delay
 
     def check_in_screen(self, name, prefix='icons'):
@@ -586,7 +588,7 @@ class Agent:
                 # if self.basic.boss_id != 0:
                 time.sleep(1)
                 # 通关策略
-                if self.basic.ma_decision == "vistor_first":
+                if self.map_decision == "vistor_first":
                     surprise_loc = self.scan_surprise_loc(rect)
                     self.surprise_relative_loc = surprise_loc
                 else:
@@ -630,7 +632,7 @@ class Agent:
                             pyautogui.scroll(60)
 
                 if circles is not None and 0 < len(circles):
-                    if self.map_decision == "vistor_first":
+                    if self.map_decision == "visitor_first":
                         loc = self.surprise_relative_loc
                         min_loc = None
                         if None != loc and 0 < len(loc):
@@ -775,9 +777,10 @@ class Agent:
 
             if state == 'visitor_list':
                 self.visitors += 1
-                # if self.visitors >= 4:
-                #     while True:
-                #         beepy.beep(1)
+                logger.info(f"total visitors: {self.visitors}")
+                if self.visitors >= 4:
+                    while True:
+                        beepy.beep(1)
 
                 logger.info(f'find {state}, try to click')
                 _, screen = find_lushi_window(self.title)
