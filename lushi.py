@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import beepy
 import random
 import traceback
 
@@ -48,6 +49,7 @@ class Agent:
         self.start_seq = {}
         self.side = None
         self.surprise_in_mid = False
+        self.visitors = 0
         self.states = ['box', 'mercenaries', 'team_lock', 'travel', 'boss_list', 'team_list', 'map_not_ready',
                        'goto', 'show', 'teleport', 'start_game', 'member_not_ready', 'not_ready_dots', 'battle_ready',
                        'treasure_list', 'treasure_replace', 'destroy', 'blue_portal', 'boom', 'visitor_list',
@@ -65,6 +67,7 @@ class Agent:
             x[k] = v
 
     def load_config(self, cfg):
+        self.visitors = 3
         with open(self.loc_file, 'r', encoding='utf-8') as f:
             loc_cfg = yaml.safe_load(f)
 
@@ -413,14 +416,14 @@ class Agent:
                                 first_x + mid_x) // 2, first_x * 0.25 + mid_x * 0.75, mid_x
                     else:
                         x1, x2, x3, x4, x5 = mid_x, mid_x * 0.75 + first_x * 0.25, (
-                                    first_x + mid_x) // 2, mid_x * 0.25 + first_x * 0.75, first_x
+                                first_x + mid_x) // 2, mid_x * 0.25 + first_x * 0.75, first_x
                 else:
                     if self.surprise_in_mid:
                         x1, x2, x3, x4, x5 = last_x, last_x * 0.75 + mid_x * 0.25, (
                                 last_x + mid_x) // 2, last_x * 0.25 + mid_x * 0.75, mid_x
                     else:
                         x1, x2, x3, x4, x5 = mid_x, mid_x * 0.75 + last_x * 0.25, (
-                                    last_x + mid_x) // 2, mid_x * 0.25 + last_x * 0.75, last_x
+                                last_x + mid_x) // 2, mid_x * 0.25 + last_x * 0.75, last_x
 
                 for x in (x1, x2, x3, x4, x5):
                     pyautogui.click(tuple_add(rect, (x, y)))
@@ -468,6 +471,11 @@ class Agent:
                     pyautogui.click(tuple_add(rect, self.locs.start_game))
 
             if state == 'visitor_list':
+                self.visitors += 1
+                # if self.visitors >= 4:
+                #     while True:
+                #         beepy.beep(1)
+
                 logger.info(f'find {state}, try to click')
                 _, screen = find_lushi_window(self.title)
                 advice = self.pick_visitor(screen)
