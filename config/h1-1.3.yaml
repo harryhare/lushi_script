@@ -7,8 +7,8 @@ boss_hero:
   LETL_030H:
   - "\u8FE6\u987F\u7537\u7235"
   - Baron Geddon
-  - 1, 3, 2
-  - 0
+  - 2, 1, 3
+  - 1
   - '1'
   LT21_05H:
   - "\u53A8\u5E08\u66F2\u5947"
@@ -20,7 +20,7 @@ boss_hero:
   - "\u5B89\u4E1C\u5C3C\u8FBE\u65AF"
   - Antonidas
   - 1, 2, 3
-  - 1
+  - 0
   - '1'
 boss_id: '1'
 confidence: 0.8
@@ -30,8 +30,8 @@ hero:
   LETL_030H:
   - "\u8FE6\u987F\u7537\u7235"
   - Baron Geddon
-  - 2, 3, 1
-  - 0
+  - 2, 1, 3
+  - 1
   - '1'
   LT21_05H:
   - "\u53A8\u5E08\u66F2\u5947"
@@ -43,8 +43,9 @@ hero:
   - "\u5B89\u4E1C\u5C3C\u8FBE\u65AF"
   - Antonidas
   - 1, 2, 3
-  - 1
+  - 0
   - '1'
+hs_log: D:/Program Files (x86)/Hearthstone\Logs\Power.log
 hs_path: D:/Program Files (x86)/Hearthstone/Hearthstone.exe
 lang: EN-1024x768
 lettuce_role_limit: '2'
