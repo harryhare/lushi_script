@@ -5,6 +5,7 @@ hslog==1.16.1
 MouseInfo
 numpy
 opencv-python
+opencv-contrib-python
 Pillow
 psutil
 PyAutoGUI
@@ -19,3 +20,4 @@ PyYAML
 PyQt5
 pinyin
 keyboard
+imutils

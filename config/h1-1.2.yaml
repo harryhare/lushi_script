@@ -1,0 +1,36 @@
+auto_restart: true
+auto_tasks: false
+bn_path: C:/Program Files (x86)/Battle.net/Battle.net.exe
+boss_id: 0
+confidence: 0.8
+delay: 0.5
+early_stop: false
+hero:
+  BARL_012H:
+  - "\u739B\u8BFA\u6D1B\u65AF"
+  - Mannoroth
+  - 1, 2, 3
+  - 1
+  LETL_002H:
+  - "\u63D0\u91CC\u5965\xB7\u5F17\u4E01"
+  - Tirion Fordring
+  - 1, 2, 3
+  - 2
+  LT21_03H:
+  - "\u65AF\u5C3C\u5FB7"
+  - Sneed
+  - 1, 2, 3
+  - 0
+hs_log: D:/Program Files (x86)/Hearthstone\Logs\Power.log
+hs_path: D:/Program Files (x86)/Hearthstone/Hearthstone.exe
+is_screenshot: true
+lang: EN-1024x768
+longest_waiting: 80
+reward_count: 5
+reward_count_dropdown: '3'
+screenshot_error: false
+screenshot_reward: false
+screenshot_treasure: false
+screenshot_visitor: false
+team_id: 4
+ui_lang: chs

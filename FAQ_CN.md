@@ -19,7 +19,7 @@ Q: 在cmd中运行pip install指令时显示 'pip' 不是内部或外部命令�
 A：说明你没安装Python，可以直接百度python官网或者去微软商店里面下载。  
 
 Q: psutil依赖包下载完成后显示安装失败了,重试了好几次还是一样是为什么？  
-A: 说明你安装的Python版本过高，可以下载[Micsoft Visaul C++](https://download.visualstudio.microsoft.com/download/pr/d3cbdace-2bb8-4dc5-a326-2c1c0f1ad5ae/9B9DD72C27AB1DB081DE56BB7B73BEE9A00F60D14ED8E6FDE45DAB3E619B5F04/VC_redist.x64.exe)后再次运行指令即可,也可以直接重新安装旧版的Python 3.7 或者Python 3.8  
+A: 说明你安装的Python版本过高，可以下载[Micsoft Visaul C++](https://download.visualstudio.microsoft.com/download/pr/d3cbdace-2bb8-4dc5-a326-2c1c0f1ad5ae/9B9DD72C27AB1DB081DE56BB7B73BEE9A00F60D14ED8E6FDE45DAB3E619B5F04/VC_redist.x64.exe)后再次运行指令即可,也可以直接重新安装旧版的Python 3.6.x   
 
 Q:下载速度实在是太慢了，有没有什么解决办法？  
 A:可以尝试使用运行以下指令来运行  
@@ -34,7 +34,7 @@ A: [查看该回答](https://blog.csdn.net/qq_36834256/article/details/105870593
 
 ### 2.安装相关软件的注意事项-
 Q: 安装Python时有什么要注意的？  
-A: 如果没有特殊需求强烈建议安装Python 3.7或者Python 3.8版本，建议使用微软商店或者去Python官网下载安装。  
+A: 使用了opencv专利算法(`SIFT`和`SURF`)，需使用 `Python 3.6.x` 版本，建议使用微软商店或者去Python官网下载安装。  
 
 Q: 安装[Anaconda3](https://www.anaconda.com/products/individual#windows)时有什么需要注意的？  
 A: 安装时请仔细看清每一步，确保在Advanced Options界面时勾选Add Anaconda3 to the system PATH environment variable选项（该选项默认是不勾选的）以确保脚本的正常运行。  
@@ -64,7 +64,9 @@ A: 检查配置中的炉石路径是否正确，并检查炉石路径下的Logs�
 Q: 我没有找到Power.log文件怎么办
 
 A1: Power.log一旦游戏战斗开始就会自动出现，所以只要你炉石路径填对了，脚本就能正常运行。
+
 A2: 如果你在Logs/目录下没有找到Power.log（指对战开始后），可以先用记牌器软件（HDT，炉石官方助手，炉石盒子）启动一次炉石传说，以后就会自动生成。
+
 A2: 如果你不想下载记牌器软件，那稍微有一些麻烦。你需要到C:\Users\你的用户\AppData\Local\Blizzard\Hearthstone目录下新建一个叫log.config的文件（如果已经有就不用新建了），然后把下面这段代码放进去（如果已经有[Power]相关则更改相关设置）:
 ```yaml
 [Power]
@@ -95,6 +97,23 @@ Q: 无法选择1600*900分辨率
 
 A：可以参考https://github.com/zhoubin-me/lushi_script/issues/131#issuecomment-966912310
 
-### 8.卡营火
+### 8.卡营火(此条目一般不会再0.4.2后的版本发生)
+
 由于连续点击地图会拖动导致，可以修改default.yaml中的delay
 ![image](https://user-images.githubusercontent.com/46051884/142219998-f2626f5c-47c3-4550-a80d-86d65a367c77.png)
+
+
+### 9.总结不上怪
+
+依次排查 power.log是否能正确生成, 炉石战网路径是否正确，队伍配置是否和游戏中一样
+
+另外目前发现游戏内好友互动，观战，打完天梯再打佣兵等都有可能导致脚本卡在不上怪阶段，此时需要退出游戏重进
+
+
+### 10.can not get name of process psutil.AccessDenied (pid=1804)
+
+请使用管理员权限打开脚本
+
+
+### 11 启动程序出现 raise assertionerror()
+需要删除power.log重新进入游戏

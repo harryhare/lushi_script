@@ -10,7 +10,8 @@ import cv2
 import numpy as np
 import psutil
 import pyautogui
-import win32api
+pyautogui.PAUSE = 2.5
+import win32api # TODO check it before commit
 from PIL import ImageGrab
 
 logger = logging.getLogger()
@@ -31,7 +32,7 @@ def read_hero_data():
                 # print(row)
                 num_id, name_eng, race, name_chs, sn_id, damage1, target1, speed1, type1, others1, \
                 damage2, target2, speed2, type2, others2, \
-                damage3, target3, speed3, type3, others3 = row
+                damage3, target3, speed3, type3, others3, lettuce_role = row
 
                 spells = {
                     0: {'damage': int(damage1) if len(damage1) else 0, 'range': target1, 'speed': speed1, 'type': type1,
@@ -42,14 +43,40 @@ def read_hero_data():
                         'others': others3},
                 }
 
-                heros[sn_id[:-3]] = [name_chs, name_eng[1:-1], race[1:-1], spells]
+                heros[sn_id[:-3]] = [name_chs, name_eng[1:-1], race[1:-1], spells, lettuce_role]
             count += 1
     return heros
 
 
 HEROS = read_hero_data()
 
-if PLATFORM:
+def get_boss_id_map():
+    the_map = {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 5,
+        
+        "1-7": 6,
+        "1-8": 7,
+        "1-9": 8,
+
+        "7": 9,
+        "8": 10,
+        "9": 11,
+        "10": 12,
+        "11": 13,
+        "12": 14,
+
+        "13": 15,
+    }
+    return the_map
+
+BOSS_ID_MAP = get_boss_id_map()
+
+if not platform.system() == 'Darwin':
     import win32gui
     from utils.winguiauto import findTopWindow
 
@@ -71,20 +98,80 @@ if PLATFORM:
             return False
 
 
-    def find_lushi_window(title, to_gray=True):
+    def find_lushi_window(title, to_gray=True, raw=False):
         hwnd = findTopWindow(title)
         rect = win32gui.GetWindowPlacement(hwnd)[-1]
         image = ImageGrab.grab(rect)
+        if raw:
+            image = cv2.cvtColor(np.array(image),cv2.COLOR_RGB2BGR)
+            return rect, image
         if to_gray:
             image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2GRAY)
         else:
             image = np.array(image)
         return rect, image
 
+    def find_lushi_raw_window(title):
+        hwnd = findTopWindow(title)
+        rect = win32gui.GetWindowPlacement(hwnd)[-1]
+        image = ImageGrab.grab(rect)
+        img = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+        del image
+        return rect, img
 
     def screenshot(title, prefix='none'):
         hwnd = findTopWindow(title)
         rect = win32gui.GetWindowPlacement(hwnd)[-1]
+        image = ImageGrab.grab(rect)
+        dt = datetime.strftime(datetime.now(), "%Y-%m-%d")
+        screenshot_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs', dt, 'screenshot')
+        if not os.path.exists(screenshot_path):
+            os.makedirs(screenshot_path)
+        time_second = datetime.strftime(datetime.now(), "%H-%M.%S,%f")[:-3]
+        file_name = f'{prefix}_{time_second}.png'
+        full_file_name = os.path.join(screenshot_path, file_name)
+        image.save(full_file_name)
+        logger.info(f'screenshot {file_name} saved')
+
+
+
+elif platform.system() == 'Darwin':
+    import psutil
+    import Quartz
+    from Cocoa import NSRunningApplication, NSApplicationActivateIgnoringOtherApps
+
+    def set_top_window(title):
+        for process in psutil.process_iter():
+            if process.name() == 'Hearthstone':
+                pid = process.pid
+                app = NSRunningApplication.runningApplicationWithProcessIdentifier_(pid)
+                app.activateWithOptions_(NSApplicationActivateIgnoringOtherApps)
+                break
+
+    def find_lushi_window(title, to_gray=True, raw=False):
+        windows = Quartz.CGWindowListCopyWindowInfo(Quartz.kCGWindowListExcludeDesktopElements | Quartz.kCGWindowListOptionOnScreenOnly, Quartz.kCGNullWindowID)
+        for win in windows:
+            if 'Hearthstone Hearthstone' in '%s %s' % (win[Quartz.kCGWindowOwnerName], win.get(Quartz.kCGWindowName, '')):
+                w = win['kCGWindowBounds']
+                rect = [w['X'], w['Y'], w['X']+w['Width'], w['Y']+w['Height']]
+                break
+        image = ImageGrab.grab(rect)
+        if raw:
+            image = cv2.cvtColor(np.array(image),cv2.COLOR_RGB2BGR)
+            return rect, image
+        if to_gray:
+            image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2GRAY)
+        else:
+            image = np.array(image)
+        return rect, image
+
+    def screenshot(title, prefix='none'):
+        windows = Quartz.CGWindowListCopyWindowInfo(Quartz.kCGWindowListExcludeDesktopElements | Quartz.kCGWindowListOptionOnScreenOnly, Quartz.kCGNullWindowID)
+        for win in windows:
+            if 'Hearthstone Hearthstone' in '%s %s' % (win[Quartz.kCGWindowOwnerName], win.get(Quartz.kCGWindowName, '')):
+                w = win['kCGWindowBounds']
+                rect = [w['X'], w['Y'], w['X']+w['Width'], w['Y']+w['Height']]
+                break
         image = ImageGrab.grab(rect)
         dt = datetime.strftime(datetime.now(), "%Y-%m-%d")
         screenshot_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs', dt, 'screenshot')
@@ -95,21 +182,6 @@ if PLATFORM:
         full_file_name = os.path.join(screenshot_path, file_name)
         image.save(full_file_name)
         logger.info(f'screenshot {file_name} saved')
-
-
-
-# elif platform.system() == 'Darwin':
-#     import psutil
-#     from Cocoa import NSRunningApplication, NSApplicationActivateIgnoringOtherApps
-#
-#     def find_lushi_window(title):
-#         for p in psutil.process_iter():
-#             if p.name == title:
-#                 pid = p.pid
-#                 app = NSRunningApplication.runningApplicationWithProcessIdentifier_(pid)
-#                 app.activateWithOptions_(NSApplicationActivateIgnoringOtherApps)
-#         else:
-#             raise ValueError("Hearthstone is not running")
 else:
     raise ValueError(f"Plafform {platform.platform()} is not supported yet")
 
@@ -167,6 +239,7 @@ def restart_game(lang, battle_net_path, kill_existing=True):
     else:
         raise ValueError(f"Language {lang} not supported")
     if kill_existing:
+        logger.info('try to kill hearthstone')
         proc_kill([bn, hs])
         time.sleep(5)
 
@@ -263,6 +336,12 @@ def analyse_battle_field(region, screen, digits):
 def tuple_add(x, y):
     return x[0] + y[0], x[1] + y[1]
 
+# get hero's lettuce role by id
+def get_hero_color_by_id (hero_id) :
+    for hk, hv in HEROS.items():
+        if hero_id == hk:
+            return int(hv[4])
+    return 0
 
 if __name__ == "__main__":
     screenshot_folder = r'resource\screenshot'

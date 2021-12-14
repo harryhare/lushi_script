@@ -1,0 +1,45 @@
+auto_restart: false
+auto_tasks: false
+bn_path: C:/Program Files (x86)/Battle.net/Battle.net.exe
+boss_id: 2
+confidence: 0.8
+delay: 0.5
+early_stop: false
+hero:
+  BARL_005H:
+  - "\u6C83\u91D1"
+  - Vol'jin
+  - 2, 3, 1
+  - 5
+  LETL_001H:
+  - "\u5E0C\u5C14\u74E6\u5A1C\u65AF\xB7\u98CE\u884C\u8005"
+  - Sylvanas Windrunner
+  - 1, 2, 3
+  - 4
+  LETL_011H:
+  - "\u5A1C\u5854\u8389\xB7\u585E\u6797"
+  - Natalie Seline
+  - 3, 1, 2
+  - 0
+  LETL_017H:
+  - "\u74E6\u5C14\u767B\xB7\u6668\u62E5"
+  - Varden Dawngrasp
+  - 1, 2, 3
+  - 1
+  LETL_028H:
+  - "\u62C9\u683C\u7EB3\u7F57\u65AF"
+  - Ragnaros
+  - 2, 1, 3
+  - 3
+  SWL_26H:
+  - "\u8FEA\u4E9A\u6CE2\u7F57"
+  - Diablo
+  - 2, 1, 3
+  - 2
+hs_log: D:/Program Files (x86)/Hearthstone\Logs\Power.log
+hs_path: D:/Program Files (x86)/Hearthstone/Hearthstone.exe
+lang: EN-1024x768
+longest_waiting: 80
+reward_count: 5
+team_id: 7
+ui_lang: chs

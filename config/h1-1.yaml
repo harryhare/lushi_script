@@ -1,0 +1,51 @@
+auto_restart: true
+auto_tasks: false
+bn_path: C:/Program Files (x86)/Battle.net/Battle.net.exe
+boss_id: 0
+confidence: 0.8
+delay: 0.5
+early_stop: false
+hero:
+  BARL_008H:
+  - "\u7A46\u5766\u52AA\u65AF"
+  - Mutanus
+  - 1, 2, 3
+  - 3
+  BARL_016H:
+  - "\u6CF0\u5170\u5FB7"
+  - Tyrande
+  - 1, 2, 3
+  - 5
+  LETL_017H:
+  - "\u74E6\u5C14\u767B\xB7\u6668\u62E5"
+  - Varden Dawngrasp
+  - 1, 2, 3
+  - 2
+  LETL_021H:
+  - "\u6CFD\u745E\u62C9"
+  - Xyrella
+  - 3, 1, 2
+  - 0
+  SWL_13H:
+  - "\u4E4C\u745F\u5C14"
+  - Uther
+  - 1, 2, 3
+  - 4
+  SWL_14H:
+  - "\u95EA\u72D0"
+  - Blink Fox
+  - 1, 2, 3
+  - 1
+hs_log: D:/Program Files (x86)/Hearthstone\Logs\Power.log
+hs_path: D:/Program Files (x86)/Hearthstone/Hearthstone.exe
+is_screenshot: true
+lang: EN-1024x768
+longest_waiting: 80
+reward_count: 5
+reward_count_dropdown: '3'
+screenshot_error: false
+screenshot_reward: false
+screenshot_treasure: false
+screenshot_visitor: false
+team_id: 0
+ui_lang: chs

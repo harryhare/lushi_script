@@ -1,0 +1,51 @@
+auto_restart: true
+auto_tasks: false
+bn_path: C:/Program Files (x86)/Battle.net/Battle.net.exe
+boss_id: 6
+confidence: 0.8
+delay: 0.5
+early_stop: false
+hero:
+  BARL_025H:
+  - "\u8428\u5C14"
+  - Thrall
+  - 2, 1, 3
+  - 1
+  LETL_001H:
+  - "\u5E0C\u5C14\u74E6\u5A1C\u65AF\xB7\u98CE\u884C\u8005"
+  - Sylvanas Windrunner
+  - 1, 2, 3
+  - 2
+  LETL_003H:
+  - "\u4F0A\u5229\u4E39\xB7\u6012\u98CE"
+  - Illidan Stormrage
+  - 1, 2, 3
+  - 4
+  LETL_006H:
+  - "\u52A0\u62C9\u514B\u82CF\u65AF\u5927\u738B"
+  - Lord Jaraxxus
+  - 1, 2, 3
+  - 5
+  LETL_015H:
+  - "\u96F7\u514B\u8428"
+  - Rexxar
+  - 3, 1, 2
+  - 3
+  LETL_041H:
+  - "\u5DEB\u5996\u738B"
+  - The Lich King
+  - 1, 2, 3
+  - 0
+hs_log: D:/Program Files (x86)/Hearthstone\Logs\Power.log
+hs_path: D:/Program Files (x86)/Hearthstone/Hearthstone.exe
+is_screenshot: true
+lang: EN-1024x768
+longest_waiting: 80
+reward_count: 5
+reward_count_dropdown: '4'
+screenshot_error: false
+screenshot_reward: false
+screenshot_treasure: false
+screenshot_visitor: true
+team_id: 7
+ui_lang: chs
